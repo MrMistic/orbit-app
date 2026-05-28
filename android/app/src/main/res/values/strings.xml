@@ -4,4 +4,7 @@
     <string name="widget_date_desc">Countdown to next important date</string>
     <string name="widget_fitness_desc">Today\'s fitness recommendation</string>
     <string name="widget_sleep_desc">Sleep summary for the week</string>
+    <string name="widget_bankroll_desc">Net profit and ROI from your bets</string>
+    <string name="widget_subscriptions_desc">Total monthly subscription burn</string>
+    <string name="widget_cycle_desc">Days until your next predicted period</string>
 </resources>

@@ -4,6 +4,7 @@ import '../controllers/fitness_goal_controller.dart';
 import '../controllers/workout_controller.dart';
 import '../database/models.dart';
 import '../database/object_box.dart';
+import '../services/cycle_predictor.dart';
 import '../services/fitness_algorithms.dart';
 
 /// Writes summary data to SharedPreferences so native Android widgets
@@ -17,6 +18,9 @@ class WidgetDataService {
     await _updateNextImportantDate(prefs);
     await _updateFitnessRecommendation(prefs);
     await _updateSleepSummary(prefs);
+    await _updateBankroll(prefs);
+    await _updateSubscriptions(prefs);
+    await _updateCycle(prefs);
   }
 
   static Future<void> _updateNextTodo(SharedPreferences prefs) async {
@@ -122,5 +126,85 @@ class WidgetDataService {
           recent.fold<double>(0, (s, e) => s + e.hoursSlept) / recent.length;
       await prefs.setString('${_prefix}sleep_avg', '${avg.toStringAsFixed(1)}h avg');
     }
+  }
+
+  static Future<void> _updateBankroll(SharedPreferences prefs) async {
+    final bets = ObjectBox.instance.betRecordBox.getAll();
+    final settled = bets.where((b) => b.status != 'open').toList();
+
+    if (settled.isEmpty) {
+      await prefs.setString('${_prefix}bankroll_net', '');
+      await prefs.setString('${_prefix}bankroll_roi', '');
+      return;
+    }
+
+    final netProfit = settled.fold<double>(0, (s, b) => s + b.result);
+    final totalStaked = settled.fold<double>(0, (s, b) => s + b.stake);
+
+    final sign = netProfit >= 0 ? '+' : '-';
+    final netStr = '$sign\$${netProfit.abs().toStringAsFixed(2)}';
+
+    String roiStr = '';
+    if (totalStaked > 0) {
+      final roi = netProfit / totalStaked * 100;
+      final roiSign = roi >= 0 ? '+' : '-';
+      roiStr = 'ROI: $roiSign${roi.abs().toStringAsFixed(1)}%';
+    }
+
+    await prefs.setString('${_prefix}bankroll_net', netStr);
+    await prefs.setString('${_prefix}bankroll_roi', roiStr);
+  }
+
+  static Future<void> _updateSubscriptions(SharedPreferences prefs) async {
+    final all = ObjectBox.instance.subscriptionBox.getAll();
+    final active = all.where((s) => s.active).toList();
+
+    if (active.isEmpty) {
+      await prefs.setString('${_prefix}burn_total', '');
+      await prefs.setString('${_prefix}burn_count', '');
+      return;
+    }
+
+    final total = active.fold<double>(0, (s, sub) => s + sub.monthlyCost);
+    await prefs.setString(
+      '${_prefix}burn_total',
+      '\$${total.toStringAsFixed(2)}/mo',
+    );
+    await prefs.setString(
+      '${_prefix}burn_count',
+      '${active.length} active',
+    );
+  }
+
+  static Future<void> _updateCycle(SharedPreferences prefs) async {
+    final entries = ObjectBox.instance.cycleBox.getAll()
+      ..sort((a, b) => a.date.compareTo(b.date));
+    final prediction = CyclePredictor.predict(entries);
+
+    if (prediction == null) {
+      await prefs.setString('${_prefix}cycle_days', '');
+      await prefs.setString('${_prefix}cycle_confidence', '');
+      return;
+    }
+
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final next = DateTime(
+      prediction.nextPeriodStart.year,
+      prediction.nextPeriodStart.month,
+      prediction.nextPeriodStart.day,
+    );
+    final days = next.difference(today).inDays;
+
+    final daysText = switch (days) {
+      <= 0 => 'Today',
+      1 => 'Tomorrow',
+      _ => '$days days',
+    };
+    final confidenceText =
+        '${(prediction.confidence * 100).round()}%';
+
+    await prefs.setString('${_prefix}cycle_days', daysText);
+    await prefs.setString('${_prefix}cycle_confidence', confidenceText);
   }
 }

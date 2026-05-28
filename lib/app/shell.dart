@@ -4,7 +4,10 @@ import 'package:get/get.dart';
 
 import '../controllers/module_order_controller.dart';
 import 'modules.dart';
+import 'tabs/finance/bankroll/bankroll_tracker_page.dart';
+import 'tabs/finance/subscriptions/subscriptions_page.dart';
 import 'tabs/more_tab.dart';
+import 'tabs/relationship/cycle/cycle_tracker_page.dart';
 import 'tabs/relationship/important_dates/important_dates_page.dart';
 
 /// Root navigation shell. Bottom nav has 4 slots: the user's first three
@@ -76,6 +79,25 @@ class _AppShellState extends State<AppShell> {
       Navigator.of(context).push(
         MaterialPageRoute(builder: (_) => const ImportantDatesPage()),
       );
+      return;
+    }
+    if (moduleId == 'cycle') {
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => const CycleTrackerPage()),
+      );
+      return;
+    }
+    if (moduleId == 'bankroll') {
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => const BankrollTrackerPage()),
+      );
+      return;
+    }
+    if (moduleId == 'bills_subs') {
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => const SubscriptionsPage()),
+      );
+      return;
     }
   }
 
