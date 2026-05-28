@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Orbit ring (ellipse path) centered in the safe zone -->
+    <path
+        android:pathData="M54,34
+            C68,34 80,42.5 80,54
+            C80,65.5 68,74 54,74
+            C40,74 28,65.5 28,54
+            C28,42.5 40,34 54,34Z"
+        android:strokeWidth="3"
+        android:strokeColor="#FFFFFF"
+        android:fillColor="#00000000"/>
+
+    <!-- Orbiting dot (small circle at top-right of the ring) -->
+    <path
+        android:pathData="M74,44
+            m-4.5,0
+            a4.5,4.5 0 1,1 9,0
+            a4.5,4.5 0 1,1 -9,0"
+        android:fillColor="#FFFFFF"/>
+
+    <!-- Center dot -->
+    <path
+        android:pathData="M54,54
+            m-6,0
+            a6,6 0 1,1 12,0
+            a6,6 0 1,1 -12,0"
+        android:fillColor="#FFFFFF"/>
+
+</vector>

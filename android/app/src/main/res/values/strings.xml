@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_todo_desc">Shows your next upcoming todo</string>
+    <string name="widget_date_desc">Countdown to next important date</string>
+    <string name="widget_fitness_desc">Today\'s fitness recommendation</string>
+    <string name="widget_sleep_desc">Sleep summary for the week</string>
+</resources>

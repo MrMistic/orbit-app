@@ -1,0 +1,1464 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:7227615254541045321",
+      "lastPropertyId": "6:3247224965338095144",
+      "name": "CycleEntry",
+      "properties": [
+        {
+          "id": "1:7437558686491853335",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:8160753187279866843",
+          "name": "date",
+          "type": 10
+        },
+        {
+          "id": "3:2670142244532168832",
+          "name": "flow",
+          "type": 6
+        },
+        {
+          "id": "4:1742545006434785561",
+          "name": "note",
+          "type": 9
+        },
+        {
+          "id": "5:1724151838833936982",
+          "name": "symptomsRaw",
+          "type": 9
+        },
+        {
+          "id": "6:3247224965338095144",
+          "name": "symptoms",
+          "type": 30
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:7773889348493913377",
+      "lastPropertyId": "6:9196613320030881453",
+      "name": "DataPoint",
+      "properties": [
+        {
+          "id": "1:1099078256606063871",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:3728821167505733235",
+          "name": "metric",
+          "type": 9
+        },
+        {
+          "id": "3:7987515446435536807",
+          "name": "value",
+          "type": 8
+        },
+        {
+          "id": "4:7681707867802396735",
+          "name": "unit",
+          "type": 9
+        },
+        {
+          "id": "5:6996907181249423432",
+          "name": "recordedAt",
+          "type": 10
+        },
+        {
+          "id": "6:9196613320030881453",
+          "name": "note",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:5310548931802525902",
+      "lastPropertyId": "13:775276246357657826",
+      "name": "Recipe",
+      "properties": [
+        {
+          "id": "1:6255841992329294797",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:5643807862820664686",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:3556608577147814025",
+          "name": "description",
+          "type": 9
+        },
+        {
+          "id": "4:8510307776565339590",
+          "name": "ingredients",
+          "type": 9
+        },
+        {
+          "id": "5:6850179115562499718",
+          "name": "steps",
+          "type": 9
+        },
+        {
+          "id": "6:4495861009927181722",
+          "name": "servings",
+          "type": 6
+        },
+        {
+          "id": "7:4632713006845768883",
+          "name": "prepTimeMinutes",
+          "type": 6
+        },
+        {
+          "id": "8:7861415987094208793",
+          "name": "cookTimeMinutes",
+          "type": 6
+        },
+        {
+          "id": "9:8120925392985397104",
+          "name": "createdAt",
+          "type": 10
+        },
+        {
+          "id": "10:4943497252002300332",
+          "name": "favorite",
+          "type": 1
+        },
+        {
+          "id": "11:1793071141213883318",
+          "name": "photoPath",
+          "type": 9
+        },
+        {
+          "id": "12:340295486979974010",
+          "name": "tagsRaw",
+          "type": 9
+        },
+        {
+          "id": "13:775276246357657826",
+          "name": "tagList",
+          "type": 30
+        }
+      ],
+      "relations": [
+        {
+          "id": "1:1496863098562344217",
+          "name": "ingredientList",
+          "targetId": "5:7138750977632914060"
+        }
+      ]
+    },
+    {
+      "id": "4:9125806435463203880",
+      "lastPropertyId": "7:6384203521895928490",
+      "name": "Todo",
+      "properties": [
+        {
+          "id": "1:431526912950670026",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:1040101586733498021",
+          "name": "title",
+          "type": 9
+        },
+        {
+          "id": "3:4566164503690036685",
+          "name": "notes",
+          "type": 9
+        },
+        {
+          "id": "4:2450360340889401418",
+          "name": "done",
+          "type": 1
+        },
+        {
+          "id": "5:8445470431286536831",
+          "name": "createdAt",
+          "type": 10
+        },
+        {
+          "id": "6:3196460606871297175",
+          "name": "completedAt",
+          "type": 10
+        },
+        {
+          "id": "7:6384203521895928490",
+          "name": "dueDate",
+          "type": 10
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "5:7138750977632914060",
+      "lastPropertyId": "6:1983114659589990491",
+      "name": "Ingredient",
+      "properties": [
+        {
+          "id": "1:2874316916218300462",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:2569614203647953314",
+          "name": "quantity",
+          "type": 8
+        },
+        {
+          "id": "3:872333775032484009",
+          "name": "unit",
+          "type": 9
+        },
+        {
+          "id": "4:5251043069601905187",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "5:3001361041434187197",
+          "name": "note",
+          "type": 9
+        },
+        {
+          "id": "6:1983114659589990491",
+          "name": "order",
+          "type": 6
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "6:1906757767439681054",
+      "lastPropertyId": "7:1571515038409591827",
+      "name": "ShoppingItem",
+      "properties": [
+        {
+          "id": "1:7049107295208369608",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:7334815299073430838",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:2294374584082046308",
+          "name": "quantity",
+          "type": 8
+        },
+        {
+          "id": "4:2240229126303304469",
+          "name": "unit",
+          "type": 9
+        },
+        {
+          "id": "5:5156743988249369519",
+          "name": "sourceRecipe",
+          "type": 9
+        },
+        {
+          "id": "6:7111199231643130762",
+          "name": "checked",
+          "type": 1
+        },
+        {
+          "id": "7:1571515038409591827",
+          "name": "addedAt",
+          "type": 10
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "7:1304938930262954510",
+      "lastPropertyId": "7:6361705262245865457",
+      "name": "DateIdea",
+      "properties": [
+        {
+          "id": "1:3863187043579188665",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:5099757408622366026",
+          "name": "title",
+          "type": 9
+        },
+        {
+          "id": "3:3942873245966994812",
+          "name": "notes",
+          "type": 9
+        },
+        {
+          "id": "4:7322635421608676639",
+          "name": "category",
+          "type": 9
+        },
+        {
+          "id": "5:6123812992856939857",
+          "name": "done",
+          "type": 1
+        },
+        {
+          "id": "6:6824483299213745071",
+          "name": "completedAt",
+          "type": 10
+        },
+        {
+          "id": "7:6361705262245865457",
+          "name": "createdAt",
+          "type": 10
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "8:8191367007088425143",
+      "lastPropertyId": "8:8221769558459057008",
+      "name": "GiftEntry",
+      "properties": [
+        {
+          "id": "1:3900041665243426083",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:3831560782597138205",
+          "name": "title",
+          "type": 9
+        },
+        {
+          "id": "3:6825047493373473347",
+          "name": "notes",
+          "type": 9
+        },
+        {
+          "id": "4:7752931586209265920",
+          "name": "status",
+          "type": 9
+        },
+        {
+          "id": "5:1457072869042759435",
+          "name": "occasion",
+          "type": 9
+        },
+        {
+          "id": "6:969099141105142592",
+          "name": "price",
+          "type": 8
+        },
+        {
+          "id": "7:2817786522262105255",
+          "name": "givenAt",
+          "type": 10
+        },
+        {
+          "id": "8:8221769558459057008",
+          "name": "createdAt",
+          "type": 10
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "9:4023993129263561456",
+      "lastPropertyId": "6:5550179763497466944",
+      "name": "ImportantDate",
+      "properties": [
+        {
+          "id": "1:2468719726249030021",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:2566999063583067173",
+          "name": "title",
+          "type": 9
+        },
+        {
+          "id": "3:1695195982630006211",
+          "name": "notes",
+          "type": 9
+        },
+        {
+          "id": "4:2741258952398043705",
+          "name": "date",
+          "type": 10
+        },
+        {
+          "id": "5:5945281663948875152",
+          "name": "recurring",
+          "type": 1
+        },
+        {
+          "id": "6:5550179763497466944",
+          "name": "createdAt",
+          "type": 10
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "10:2409228660300018708",
+      "lastPropertyId": "7:1183284797953611279",
+      "name": "Trip",
+      "properties": [
+        {
+          "id": "1:1927626695648430487",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:1103166161569953670",
+          "name": "destination",
+          "type": 9
+        },
+        {
+          "id": "3:4780460476435018872",
+          "name": "notes",
+          "type": 9
+        },
+        {
+          "id": "4:5918287922846768914",
+          "name": "startDate",
+          "type": 10
+        },
+        {
+          "id": "5:8635713101110318474",
+          "name": "endDate",
+          "type": 10
+        },
+        {
+          "id": "6:8881933656862397156",
+          "name": "packingList",
+          "type": 9
+        },
+        {
+          "id": "7:1183284797953611279",
+          "name": "createdAt",
+          "type": 10
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "11:8788673077848991926",
+      "lastPropertyId": "7:2822919525719213472",
+      "name": "ConversationPrompt",
+      "properties": [
+        {
+          "id": "1:6849816332295991022",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:2721772486568255373",
+          "name": "question",
+          "type": 9
+        },
+        {
+          "id": "3:8985375270407567644",
+          "name": "category",
+          "type": 9
+        },
+        {
+          "id": "4:7550128175196278967",
+          "name": "asked",
+          "type": 1
+        },
+        {
+          "id": "5:1193218157389145347",
+          "name": "userCreated",
+          "type": 1
+        },
+        {
+          "id": "6:3614837309278781365",
+          "name": "askedAt",
+          "type": 10
+        },
+        {
+          "id": "7:2822919525719213472",
+          "name": "createdAt",
+          "type": 10
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "12:7987525569293525592",
+      "lastPropertyId": "5:2655951211666942379",
+      "name": "PreferenceEntry",
+      "properties": [
+        {
+          "id": "1:665911612772174732",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:1573725592305047895",
+          "name": "category",
+          "type": 9
+        },
+        {
+          "id": "3:4531454612017334960",
+          "name": "label",
+          "type": 9
+        },
+        {
+          "id": "4:1623062356742740",
+          "name": "value",
+          "type": 9
+        },
+        {
+          "id": "5:2655951211666942379",
+          "name": "createdAt",
+          "type": 10
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "13:5527877302884511553",
+      "lastPropertyId": "7:9207990985285964094",
+      "name": "CycleReminder",
+      "properties": [
+        {
+          "id": "1:2479738406666152230",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:8258791635412004162",
+          "name": "title",
+          "type": 9
+        },
+        {
+          "id": "3:2976100848171743203",
+          "name": "message",
+          "type": 9
+        },
+        {
+          "id": "4:5879557760816220170",
+          "name": "triggerType",
+          "type": 9
+        },
+        {
+          "id": "5:3544074936745288445",
+          "name": "daysBefore",
+          "type": 6
+        },
+        {
+          "id": "6:3682425780177203464",
+          "name": "enabled",
+          "type": 1
+        },
+        {
+          "id": "7:9207990985285964094",
+          "name": "createdAt",
+          "type": 10
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "14:6953823846787389479",
+      "lastPropertyId": "7:4835283295696095753",
+      "name": "LoveLanguageReminder",
+      "properties": [
+        {
+          "id": "1:8080238664591771396",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:4157013170265519251",
+          "name": "language",
+          "type": 9
+        },
+        {
+          "id": "3:1140842084360144900",
+          "name": "action",
+          "type": 9
+        },
+        {
+          "id": "4:3340574062644322637",
+          "name": "frequencyDays",
+          "type": 6
+        },
+        {
+          "id": "5:2153432458283760327",
+          "name": "enabled",
+          "type": 1
+        },
+        {
+          "id": "6:4750760711299730156",
+          "name": "lastShownAt",
+          "type": 10
+        },
+        {
+          "id": "7:4835283295696095753",
+          "name": "createdAt",
+          "type": 10
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "15:753745985838186414",
+      "lastPropertyId": "4:4546319626692140495",
+      "name": "BodyMetric",
+      "properties": [
+        {
+          "id": "1:406091901466396342",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:1609134695674652942",
+          "name": "metric",
+          "type": 9
+        },
+        {
+          "id": "3:7633511620005982275",
+          "name": "value",
+          "type": 8
+        },
+        {
+          "id": "4:4546319626692140495",
+          "name": "recordedAt",
+          "type": 10
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "16:5888454630498234441",
+      "lastPropertyId": "8:8151710436945808836",
+      "name": "ExerciseSet",
+      "properties": [
+        {
+          "id": "1:5346409065257752523",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:693805714453189591",
+          "name": "exerciseName",
+          "type": 9
+        },
+        {
+          "id": "3:5010231907535236935",
+          "name": "category",
+          "type": 9
+        },
+        {
+          "id": "4:5810519523598713814",
+          "name": "weight",
+          "type": 8
+        },
+        {
+          "id": "5:7874907954926074956",
+          "name": "reps",
+          "type": 6
+        },
+        {
+          "id": "6:1270187074262138613",
+          "name": "durationMinutes",
+          "type": 8
+        },
+        {
+          "id": "7:2996880319505120287",
+          "name": "distanceKm",
+          "type": 8
+        },
+        {
+          "id": "8:8151710436945808836",
+          "name": "order",
+          "type": 6
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "17:1410790611791692061",
+      "lastPropertyId": "10:8887227141359674279",
+      "name": "FitnessGoal",
+      "properties": [
+        {
+          "id": "1:6071719602105727025",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:3582551195058953432",
+          "name": "goalType",
+          "type": 9
+        },
+        {
+          "id": "3:3509417662107496543",
+          "name": "title",
+          "type": 9
+        },
+        {
+          "id": "4:5023794314804404524",
+          "name": "exerciseName",
+          "type": 9
+        },
+        {
+          "id": "5:7423534400912864594",
+          "name": "targetValue",
+          "type": 8
+        },
+        {
+          "id": "6:7507023954816449495",
+          "name": "baselineValue",
+          "type": 8
+        },
+        {
+          "id": "7:8403472725921223904",
+          "name": "unit",
+          "type": 9
+        },
+        {
+          "id": "8:4528014662172538311",
+          "name": "deadline",
+          "type": 10
+        },
+        {
+          "id": "9:5078022965168797057",
+          "name": "completed",
+          "type": 1
+        },
+        {
+          "id": "10:8887227141359674279",
+          "name": "createdAt",
+          "type": 10
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "18:6947217371485327965",
+      "lastPropertyId": "6:1666860323368389741",
+      "name": "Workout",
+      "properties": [
+        {
+          "id": "1:7402792827970735610",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:80728316743271461",
+          "name": "date",
+          "type": 10
+        },
+        {
+          "id": "3:3557329167822519381",
+          "name": "durationMinutes",
+          "type": 6
+        },
+        {
+          "id": "4:396531562501189108",
+          "name": "notes",
+          "type": 9
+        },
+        {
+          "id": "5:8180946265305535845",
+          "name": "type",
+          "type": 9
+        },
+        {
+          "id": "6:1666860323368389741",
+          "name": "createdAt",
+          "type": 10
+        }
+      ],
+      "relations": [
+        {
+          "id": "2:7073992512124200738",
+          "name": "sets",
+          "targetId": "16:5888454630498234441"
+        }
+      ]
+    },
+    {
+      "id": "19:4905545053350886665",
+      "lastPropertyId": "7:4980260936725552843",
+      "name": "BucketListItem",
+      "properties": [
+        {
+          "id": "1:5307359890018354898",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:5559649876494833234",
+          "name": "title",
+          "type": 9
+        },
+        {
+          "id": "3:2136830317935464926",
+          "name": "notes",
+          "type": 9
+        },
+        {
+          "id": "4:2932854757895947843",
+          "name": "category",
+          "type": 9
+        },
+        {
+          "id": "5:1188403581697980948",
+          "name": "done",
+          "type": 1
+        },
+        {
+          "id": "6:3432656711470981108",
+          "name": "completedAt",
+          "type": 10
+        },
+        {
+          "id": "7:4980260936725552843",
+          "name": "createdAt",
+          "type": 10
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "20:5760388519598415327",
+      "lastPropertyId": "9:3565477259468189520",
+      "name": "CrmContact",
+      "properties": [
+        {
+          "id": "1:8188998289923553745",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:7041717629185273008",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:4256056230225639289",
+          "name": "relationship",
+          "type": 9
+        },
+        {
+          "id": "4:2847194376494917408",
+          "name": "notes",
+          "type": 9
+        },
+        {
+          "id": "5:8900640602557880006",
+          "name": "phone",
+          "type": 9
+        },
+        {
+          "id": "6:6128118422050111763",
+          "name": "email",
+          "type": 9
+        },
+        {
+          "id": "7:3742275009869677286",
+          "name": "reachOutDays",
+          "type": 6
+        },
+        {
+          "id": "8:8968643716319500210",
+          "name": "lastContactedAt",
+          "type": 10
+        },
+        {
+          "id": "9:3565477259468189520",
+          "name": "createdAt",
+          "type": 10
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "21:4524090925379028975",
+      "lastPropertyId": "8:4434821919663606175",
+      "name": "MaintenanceItem",
+      "properties": [
+        {
+          "id": "1:1797415374796983874",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:2496182132177382636",
+          "name": "title",
+          "type": 9
+        },
+        {
+          "id": "3:3089966984704548985",
+          "name": "category",
+          "type": 9
+        },
+        {
+          "id": "4:3663177830060060574",
+          "name": "notes",
+          "type": 9
+        },
+        {
+          "id": "5:7700778148792176148",
+          "name": "intervalDays",
+          "type": 6
+        },
+        {
+          "id": "6:5332265869355135060",
+          "name": "lastDoneAt",
+          "type": 10
+        },
+        {
+          "id": "7:1073524890062451312",
+          "name": "nextDueAt",
+          "type": 10
+        },
+        {
+          "id": "8:4434821919663606175",
+          "name": "createdAt",
+          "type": 10
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "22:7605849473116218684",
+      "lastPropertyId": "10:879924877806374698",
+      "name": "MediaItem",
+      "properties": [
+        {
+          "id": "1:5232937105950623347",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:1926616492936091103",
+          "name": "title",
+          "type": 9
+        },
+        {
+          "id": "3:8082917694397663770",
+          "name": "author",
+          "type": 9
+        },
+        {
+          "id": "4:5381304212354781109",
+          "name": "mediaType",
+          "type": 9
+        },
+        {
+          "id": "5:4675674153766231855",
+          "name": "status",
+          "type": 9
+        },
+        {
+          "id": "6:2395771265272322456",
+          "name": "rating",
+          "type": 6
+        },
+        {
+          "id": "7:5813858129342036374",
+          "name": "notes",
+          "type": 9
+        },
+        {
+          "id": "8:7024044818990805434",
+          "name": "startedAt",
+          "type": 10
+        },
+        {
+          "id": "9:6829130897519850684",
+          "name": "finishedAt",
+          "type": 10
+        },
+        {
+          "id": "10:879924877806374698",
+          "name": "createdAt",
+          "type": 10
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "23:2087055138153594678",
+      "lastPropertyId": "5:992318404837152197",
+      "name": "PracticeSession",
+      "properties": [
+        {
+          "id": "1:5385035187514873807",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:6594798119932215983",
+          "name": "skillName",
+          "type": 9
+        },
+        {
+          "id": "3:1872668570933553879",
+          "name": "durationMinutes",
+          "type": 6
+        },
+        {
+          "id": "4:8131228033355949301",
+          "name": "notes",
+          "type": 9
+        },
+        {
+          "id": "5:992318404837152197",
+          "name": "date",
+          "type": 10
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "24:9111359305430084640",
+      "lastPropertyId": "7:4990365000110199692",
+      "name": "Project",
+      "properties": [
+        {
+          "id": "1:4385196105431600173",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:5028266279232618775",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:6142732434929842335",
+          "name": "description",
+          "type": 9
+        },
+        {
+          "id": "4:2800206808170258860",
+          "name": "status",
+          "type": 9
+        },
+        {
+          "id": "5:7914951642194926390",
+          "name": "tasks",
+          "type": 9
+        },
+        {
+          "id": "6:1440200185881561389",
+          "name": "deadline",
+          "type": 10
+        },
+        {
+          "id": "7:4990365000110199692",
+          "name": "createdAt",
+          "type": 10
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "25:3889211362454299485",
+      "lastPropertyId": "7:6020660986091830253",
+      "name": "Skill",
+      "properties": [
+        {
+          "id": "1:3329447590564508720",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:8583789819408292156",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:6612122657923973775",
+          "name": "category",
+          "type": 9
+        },
+        {
+          "id": "4:5349526027743154607",
+          "name": "notes",
+          "type": 9
+        },
+        {
+          "id": "5:7532547544619224613",
+          "name": "totalMinutes",
+          "type": 6
+        },
+        {
+          "id": "6:1130278458358617999",
+          "name": "lastPracticedAt",
+          "type": 10
+        },
+        {
+          "id": "7:6020660986091830253",
+          "name": "createdAt",
+          "type": 10
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "26:3529539935928788882",
+      "lastPropertyId": "5:6191131695133234730",
+      "name": "SleepEntry",
+      "properties": [
+        {
+          "id": "1:5652951227208220342",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:5614098286290911351",
+          "name": "bedtime",
+          "type": 10
+        },
+        {
+          "id": "3:7773676832611302977",
+          "name": "wakeTime",
+          "type": 10
+        },
+        {
+          "id": "4:1644212327982612403",
+          "name": "quality",
+          "type": 6
+        },
+        {
+          "id": "5:6191131695133234730",
+          "name": "notes",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "27:8801722609012656892",
+      "lastPropertyId": "12:3310015815313287580",
+      "name": "SavingsGoal",
+      "properties": [
+        {
+          "id": "1:7543871307981310284",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:8195528176921358805",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:3494677212380491280",
+          "name": "notes",
+          "type": 9
+        },
+        {
+          "id": "4:677237686770575251",
+          "name": "targetAmount",
+          "type": 8
+        },
+        {
+          "id": "5:5847653174294843291",
+          "name": "savedAmount",
+          "type": 8
+        },
+        {
+          "id": "6:3760734583056768017",
+          "name": "linkUrl",
+          "type": 9
+        },
+        {
+          "id": "7:8826537189875705169",
+          "name": "type",
+          "type": 9
+        },
+        {
+          "id": "8:8633462828584081532",
+          "name": "category",
+          "type": 9
+        },
+        {
+          "id": "9:6987482413416105673",
+          "name": "targetDate",
+          "type": 10
+        },
+        {
+          "id": "10:7868021594671385576",
+          "name": "achieved",
+          "type": 1
+        },
+        {
+          "id": "11:8421532788168136460",
+          "name": "achievedAt",
+          "type": 10
+        },
+        {
+          "id": "12:3310015815313287580",
+          "name": "createdAt",
+          "type": 10
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "28:1529573670991447712",
+      "lastPropertyId": "10:9055036244640552933",
+      "name": "Subscription",
+      "properties": [
+        {
+          "id": "1:3879151741341853856",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:2424474227461396592",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:8016366421930353223",
+          "name": "amount",
+          "type": 8
+        },
+        {
+          "id": "4:9078287768432619928",
+          "name": "billingCycle",
+          "type": 9
+        },
+        {
+          "id": "5:5224201522483674423",
+          "name": "category",
+          "type": 9
+        },
+        {
+          "id": "6:3217799495311402315",
+          "name": "notes",
+          "type": 9
+        },
+        {
+          "id": "7:8704236508125868683",
+          "name": "nextRenewal",
+          "type": 10
+        },
+        {
+          "id": "8:8099287174067093789",
+          "name": "active",
+          "type": 1
+        },
+        {
+          "id": "9:794975357199101678",
+          "name": "createdAt",
+          "type": 10
+        },
+        {
+          "id": "10:9055036244640552933",
+          "name": "kind",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "29:983597548400523603",
+      "lastPropertyId": "10:8924148293094370948",
+      "name": "BetRecord",
+      "properties": [
+        {
+          "id": "1:1272156652834928626",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:8341318920634029029",
+          "name": "description",
+          "type": 9
+        },
+        {
+          "id": "3:7530160013570462839",
+          "name": "sport",
+          "type": 9
+        },
+        {
+          "id": "4:5005764935785838044",
+          "name": "sportsbook",
+          "type": 9
+        },
+        {
+          "id": "5:1778216625574404610",
+          "name": "stake",
+          "type": 8
+        },
+        {
+          "id": "6:7105367230414357889",
+          "name": "decimalOdds",
+          "type": 8
+        },
+        {
+          "id": "7:7554056949924838081",
+          "name": "status",
+          "type": 9
+        },
+        {
+          "id": "8:7631112526792959204",
+          "name": "placedAt",
+          "type": 10
+        },
+        {
+          "id": "9:8237927928653677660",
+          "name": "settledAt",
+          "type": 10
+        },
+        {
+          "id": "10:8924148293094370948",
+          "name": "notes",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "30:7776307249113932246",
+      "lastPropertyId": "10:3743971791144180020",
+      "name": "RewardsCard",
+      "properties": [
+        {
+          "id": "1:2268628378882643842",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:3077125200814318114",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:4974005974629544697",
+          "name": "notes",
+          "type": 9
+        },
+        {
+          "id": "4:1468038713271740599",
+          "name": "categoriesRaw",
+          "type": 9
+        },
+        {
+          "id": "5:8488481815936756143",
+          "name": "activeRotatingCategory",
+          "type": 9
+        },
+        {
+          "id": "6:2417237819181193240",
+          "name": "active",
+          "type": 1
+        },
+        {
+          "id": "7:3179213867411602668",
+          "name": "createdAt",
+          "type": 10
+        },
+        {
+          "id": "8:4688137469943056849",
+          "name": "annualFee",
+          "type": 8
+        },
+        {
+          "id": "9:739551949553643147",
+          "name": "apr",
+          "type": 8
+        },
+        {
+          "id": "10:3743971791144180020",
+          "name": "isDefault",
+          "type": 1
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "31:5650439602014110399",
+      "lastPropertyId": "4:3463797953224595430",
+      "name": "SpendingProfileEntry",
+      "properties": [
+        {
+          "id": "1:4230457847031110390",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:5160466760063003148",
+          "name": "category",
+          "type": 9
+        },
+        {
+          "id": "3:3209219161383799309",
+          "name": "monthlySpend",
+          "type": 8
+        },
+        {
+          "id": "4:3463797953224595430",
+          "name": "updatedAt",
+          "type": 10
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "31:5650439602014110399",
+  "lastIndexId": "0:0",
+  "lastRelationId": "2:7073992512124200738",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}

@@ -1,0 +1,53 @@
+name: orbit
+description: "Personal life-management app: recipes, trackers, todos, and more."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.12.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+
+  # State management & routing
+  get: ^4.6.6
+
+  # Local persistence
+  objectbox: ^5.0.0
+  objectbox_flutter_libs: any
+
+  # Theming
+  adaptive_theme: ^3.6.0
+  dynamic_color: ^1.7.0
+
+  # Utilities
+  path: ^1.9.0
+  path_provider: ^2.1.4
+  intl: ^0.19.0
+
+  # Recipe features
+  image_picker: ^1.1.2
+  share_plus: ^10.1.2
+  http: ^1.2.2
+  flutter_local_notifications: ^18.0.1
+  timezone: ^0.10.0
+
+  # Persistence for app settings (module order, etc.)
+  shared_preferences: ^2.3.3
+
+  # Charts
+  fl_chart: ^0.69.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+  # ObjectBox code generation
+  build_runner: ^2.15.0
+  objectbox_generator: any
+
+flutter:
+  uses-material-design: true
