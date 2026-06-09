@@ -21,6 +21,7 @@ class WidgetDataService {
     await _updateBankroll(prefs);
     await _updateSubscriptions(prefs);
     await _updateCycle(prefs);
+    await _updateFeaturedPhotos(prefs);
   }
 
   static Future<void> _updateNextTodo(SharedPreferences prefs) async {
@@ -197,7 +198,8 @@ class WidgetDataService {
     final days = next.difference(today).inDays;
 
     final daysText = switch (days) {
-      <= 0 => 'Today',
+      < 0 => '—', // prediction in the past — stale
+      0 => 'Today',
       1 => 'Tomorrow',
       _ => '$days days',
     };
@@ -206,5 +208,17 @@ class WidgetDataService {
 
     await prefs.setString('${_prefix}cycle_days', daysText);
     await prefs.setString('${_prefix}cycle_confidence', confidenceText);
+  }
+
+  static Future<void> _updateFeaturedPhotos(SharedPreferences prefs) async {
+    final photos = ObjectBox.instance.featuredPhotoBox.getAll()
+      ..sort((a, b) => a.addedAt.compareTo(b.addedAt));
+    final paths = photos.map((p) => p.path).toList();
+    final alignments = photos.map((p) => p.cropAlignment).toList();
+    await prefs.setString('${_prefix}featured_photos', paths.join('|'));
+    await prefs.setString('${_prefix}featured_photo_crops', alignments.join('|'));
+    await prefs.setInt('${_prefix}featured_photo_count', paths.length);
+    final intervalMinutes = prefs.getInt('featured_photo_interval_minutes') ?? 1440;
+    await prefs.setInt('${_prefix}featured_photo_interval', intervalMinutes);
   }
 }

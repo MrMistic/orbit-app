@@ -5,6 +5,8 @@ import 'package:intl/intl.dart';
 
 import '../../../../database/models.dart';
 import '../../../../database/object_box.dart';
+import '../../../../services/widget_refresh.dart';
+import 'subscriptions_chart.dart';
 
 // ---------------------------------------------------------------------------
 // Controller
@@ -69,12 +71,14 @@ class SubscriptionsController extends GetxController {
       nextRenewal: nextRenewal,
     ));
     _load();
+    WidgetRefresh.refresh();
   }
 
   void updateSub(Subscription sub) {
     _box.put(sub);
     _load();
     items.refresh();
+    WidgetRefresh.refresh();
   }
 
   void toggleActive(Subscription sub) {
@@ -82,11 +86,13 @@ class SubscriptionsController extends GetxController {
     _box.put(sub);
     _load();
     items.refresh();
+    WidgetRefresh.refresh();
   }
 
   void remove(Subscription sub) {
     _box.remove(sub.id);
     _load();
+    WidgetRefresh.refresh();
   }
 }
 
@@ -96,6 +102,15 @@ class SubscriptionsController extends GetxController {
 
 class SubscriptionsPage extends StatelessWidget {
   const SubscriptionsPage({super.key});
+
+  static Map<String, double> _buildCategoryBreakdown(SubscriptionsController c) {
+    final map = <String, double>{};
+    for (final s in c.items.where((s) => s.active)) {
+      final cat = s.category ?? s.kind;
+      map[cat] = (map[cat] ?? 0) + s.monthlyCost;
+    }
+    return map;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -125,6 +140,11 @@ class SubscriptionsPage extends StatelessWidget {
           children: [
             if (c.items.where((s) => s.active).isNotEmpty)
               _TotalsCard(controller: c),
+            if (c.items.where((s) => s.active).isNotEmpty)
+              SubscriptionsBurnChart(
+                monthlyTotal: c.monthlyTotal,
+                categoryBreakdown: SubscriptionsPage._buildCategoryBreakdown(c),
+              ),
             Expanded(
               child: list.isEmpty
                   ? const Center(

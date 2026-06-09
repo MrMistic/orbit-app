@@ -38,7 +38,10 @@ class ObjectBox {
         rewardsCardBox = store.box<RewardsCard>(),
         spendingProfileBox = store.box<SpendingProfileEntry>(),
         betRecordBox = store.box<BetRecord>(),
-        shoppingBox = store.box<ShoppingItem>();
+        shoppingBox = store.box<ShoppingItem>(),
+        noteBox = store.box<Note>(),
+        featuredPhotoBox = store.box<FeaturedPhoto>(),
+        tabEntryBox = store.box<TabEntry>();
 
   static ObjectBox? _instance;
   static ObjectBox get instance {
@@ -81,6 +84,9 @@ class ObjectBox {
   final Box<SpendingProfileEntry> spendingProfileBox;
   final Box<BetRecord> betRecordBox;
   final Box<ShoppingItem> shoppingBox;
+  final Box<Note> noteBox;
+  final Box<FeaturedPhoto> featuredPhotoBox;
+  final Box<TabEntry> tabEntryBox;
 
   static Future<ObjectBox> create() async {
     if (_instance != null) return _instance!;

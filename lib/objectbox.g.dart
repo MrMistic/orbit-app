@@ -924,7 +924,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
     id: const obx_int.IdUid(18, 6947217371485327965),
     name: 'Workout',
-    lastPropertyId: const obx_int.IdUid(6, 1666860323368389741),
+    lastPropertyId: const obx_int.IdUid(8, 9104449626933891847),
     flags: 0,
     properties: <obx_int.ModelProperty>[
       obx_int.ModelProperty(
@@ -961,6 +961,18 @@ final _entities = <obx_int.ModelEntity>[
         id: const obx_int.IdUid(6, 1666860323368389741),
         name: 'createdAt',
         type: 10,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(7, 6823125488034094470),
+        name: 'muscleGroupsRaw',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(8, 9104449626933891847),
+        name: 'muscleGroups',
+        type: 30,
         flags: 0,
       ),
     ],
@@ -1727,6 +1739,132 @@ final _entities = <obx_int.ModelEntity>[
     relations: <obx_int.ModelRelation>[],
     backlinks: <obx_int.ModelBacklink>[],
   ),
+  obx_int.ModelEntity(
+    id: const obx_int.IdUid(32, 6045628876849928669),
+    name: 'Note',
+    lastPropertyId: const obx_int.IdUid(7, 4830977142769960334),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 2381967082119244074),
+        name: 'id',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 183148023940039896),
+        name: 'title',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(3, 8909583586917808389),
+        name: 'body',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(4, 1623170969854007852),
+        name: 'category',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(5, 2169070046490232946),
+        name: 'pinned',
+        type: 1,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(6, 6369744167770827639),
+        name: 'updatedAt',
+        type: 10,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(7, 4830977142769960334),
+        name: 'createdAt',
+        type: 10,
+        flags: 0,
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[],
+    backlinks: <obx_int.ModelBacklink>[],
+  ),
+  obx_int.ModelEntity(
+    id: const obx_int.IdUid(33, 6796630934546377304),
+    name: 'FeaturedPhoto',
+    lastPropertyId: const obx_int.IdUid(4, 1456034644877738494),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 5456461312407278152),
+        name: 'id',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 3278846946935811155),
+        name: 'path',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(3, 2292977901923708528),
+        name: 'addedAt',
+        type: 10,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(4, 1456034644877738494),
+        name: 'cropAlignment',
+        type: 9,
+        flags: 0,
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[],
+    backlinks: <obx_int.ModelBacklink>[],
+  ),
+  obx_int.ModelEntity(
+    id: const obx_int.IdUid(34, 8885558505789648395),
+    name: 'TabEntry',
+    lastPropertyId: const obx_int.IdUid(5, 133106438888902989),
+    flags: 0,
+    properties: <obx_int.ModelProperty>[
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(1, 1279012796830281420),
+        name: 'id',
+        type: 6,
+        flags: 1,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(2, 1491730261664999733),
+        name: 'friendName',
+        type: 9,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(3, 597704408533816735),
+        name: 'balance',
+        type: 8,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(4, 5584637804315449835),
+        name: 'updatedAt',
+        type: 10,
+        flags: 0,
+      ),
+      obx_int.ModelProperty(
+        id: const obx_int.IdUid(5, 133106438888902989),
+        name: 'createdAt',
+        type: 10,
+        flags: 0,
+      ),
+    ],
+    relations: <obx_int.ModelRelation>[],
+    backlinks: <obx_int.ModelBacklink>[],
+  ),
 ];
 
 /// Shortcut for [obx.Store.new] that passes [getObjectBoxModel] and for Flutter
@@ -1772,7 +1910,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
     // Typically, this is done with `dart run build_runner build`.
     generatorVersion: obx_int.GeneratorVersion.v2025_12_16,
     entities: _entities,
-    lastEntityId: const obx_int.IdUid(31, 5650439602014110399),
+    lastEntityId: const obx_int.IdUid(34, 8885558505789648395),
     lastIndexId: const obx_int.IdUid(0, 0),
     lastRelationId: const obx_int.IdUid(2, 7073992512124200738),
     lastSequenceId: const obx_int.IdUid(0, 0),
@@ -3048,13 +3186,19 @@ obx_int.ModelDefinition getObjectBoxModel() {
             ? null
             : fbb.writeString(object.notes!);
         final typeOffset = fbb.writeString(object.type);
-        fbb.startTable(7);
+        final muscleGroupsRawOffset = fbb.writeString(object.muscleGroupsRaw);
+        final muscleGroupsOffset = fbb.writeList(
+          object.muscleGroups.map(fbb.writeString).toList(growable: false),
+        );
+        fbb.startTable(9);
         fbb.addInt64(0, object.id);
         fbb.addInt64(1, object.date.millisecondsSinceEpoch);
         fbb.addInt64(2, object.durationMinutes);
         fbb.addOffset(3, notesOffset);
         fbb.addOffset(4, typeOffset);
         fbb.addInt64(5, object.createdAt.millisecondsSinceEpoch);
+        fbb.addOffset(6, muscleGroupsRawOffset);
+        fbb.addOffset(7, muscleGroupsOffset);
         fbb.finish(fbb.endTable());
         return object.id;
       },
@@ -3081,17 +3225,26 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final typeParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGet(buffer, rootOffset, 12, '');
+        final muscleGroupsRawParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 16, '');
         final createdAtParam = DateTime.fromMillisecondsSinceEpoch(
           const fb.Int64Reader().vTableGet(buffer, rootOffset, 14, 0),
         );
-        final object = Workout(
-          id: idParam,
-          date: dateParam,
-          durationMinutes: durationMinutesParam,
-          notes: notesParam,
-          type: typeParam,
-          createdAt: createdAtParam,
-        );
+        final object =
+            Workout(
+                id: idParam,
+                date: dateParam,
+                durationMinutes: durationMinutesParam,
+                notes: notesParam,
+                type: typeParam,
+                muscleGroupsRaw: muscleGroupsRawParam,
+                createdAt: createdAtParam,
+              )
+              ..muscleGroups = const fb.ListReader<String>(
+                fb.StringReader(asciiOptimization: true),
+                lazy: false,
+              ).vTableGet(buffer, rootOffset, 18, []);
         obx_int.InternalToManyAccess.setRelInfo<Workout>(
           object.sets,
           store,
@@ -4154,6 +4307,175 @@ obx_int.ModelDefinition getObjectBoxModel() {
         return object;
       },
     ),
+    Note: obx_int.EntityDefinition<Note>(
+      model: _entities[31],
+      toOneRelations: (Note object) => [],
+      toManyRelations: (Note object) => {},
+      getId: (Note object) => object.id,
+      setId: (Note object, int id) {
+        object.id = id;
+      },
+      objectToFB: (Note object, fb.Builder fbb) {
+        final titleOffset = fbb.writeString(object.title);
+        final bodyOffset = fbb.writeString(object.body);
+        final categoryOffset = object.category == null
+            ? null
+            : fbb.writeString(object.category!);
+        fbb.startTable(8);
+        fbb.addInt64(0, object.id);
+        fbb.addOffset(1, titleOffset);
+        fbb.addOffset(2, bodyOffset);
+        fbb.addOffset(3, categoryOffset);
+        fbb.addBool(4, object.pinned);
+        fbb.addInt64(5, object.updatedAt.millisecondsSinceEpoch);
+        fbb.addInt64(6, object.createdAt.millisecondsSinceEpoch);
+        fbb.finish(fbb.endTable());
+        return object.id;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
+        final idParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          4,
+          0,
+        );
+        final titleParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 6, '');
+        final bodyParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 8, '');
+        final categoryParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGetNullable(buffer, rootOffset, 10);
+        final pinnedParam = const fb.BoolReader().vTableGet(
+          buffer,
+          rootOffset,
+          12,
+          false,
+        );
+        final updatedAtParam = DateTime.fromMillisecondsSinceEpoch(
+          const fb.Int64Reader().vTableGet(buffer, rootOffset, 14, 0),
+        );
+        final createdAtParam = DateTime.fromMillisecondsSinceEpoch(
+          const fb.Int64Reader().vTableGet(buffer, rootOffset, 16, 0),
+        );
+        final object = Note(
+          id: idParam,
+          title: titleParam,
+          body: bodyParam,
+          category: categoryParam,
+          pinned: pinnedParam,
+          updatedAt: updatedAtParam,
+          createdAt: createdAtParam,
+        );
+
+        return object;
+      },
+    ),
+    FeaturedPhoto: obx_int.EntityDefinition<FeaturedPhoto>(
+      model: _entities[32],
+      toOneRelations: (FeaturedPhoto object) => [],
+      toManyRelations: (FeaturedPhoto object) => {},
+      getId: (FeaturedPhoto object) => object.id,
+      setId: (FeaturedPhoto object, int id) {
+        object.id = id;
+      },
+      objectToFB: (FeaturedPhoto object, fb.Builder fbb) {
+        final pathOffset = fbb.writeString(object.path);
+        final cropAlignmentOffset = fbb.writeString(object.cropAlignment);
+        fbb.startTable(5);
+        fbb.addInt64(0, object.id);
+        fbb.addOffset(1, pathOffset);
+        fbb.addInt64(2, object.addedAt.millisecondsSinceEpoch);
+        fbb.addOffset(3, cropAlignmentOffset);
+        fbb.finish(fbb.endTable());
+        return object.id;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
+        final idParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          4,
+          0,
+        );
+        final pathParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 6, '');
+        final cropAlignmentParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 10, '');
+        final addedAtParam = DateTime.fromMillisecondsSinceEpoch(
+          const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0),
+        );
+        final object = FeaturedPhoto(
+          id: idParam,
+          path: pathParam,
+          cropAlignment: cropAlignmentParam,
+          addedAt: addedAtParam,
+        );
+
+        return object;
+      },
+    ),
+    TabEntry: obx_int.EntityDefinition<TabEntry>(
+      model: _entities[33],
+      toOneRelations: (TabEntry object) => [],
+      toManyRelations: (TabEntry object) => {},
+      getId: (TabEntry object) => object.id,
+      setId: (TabEntry object, int id) {
+        object.id = id;
+      },
+      objectToFB: (TabEntry object, fb.Builder fbb) {
+        final friendNameOffset = fbb.writeString(object.friendName);
+        fbb.startTable(6);
+        fbb.addInt64(0, object.id);
+        fbb.addOffset(1, friendNameOffset);
+        fbb.addFloat64(2, object.balance);
+        fbb.addInt64(3, object.updatedAt.millisecondsSinceEpoch);
+        fbb.addInt64(4, object.createdAt.millisecondsSinceEpoch);
+        fbb.finish(fbb.endTable());
+        return object.id;
+      },
+      objectFromFB: (obx.Store store, ByteData fbData) {
+        final buffer = fb.BufferContext(fbData);
+        final rootOffset = buffer.derefObject(0);
+        final idParam = const fb.Int64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          4,
+          0,
+        );
+        final friendNameParam = const fb.StringReader(
+          asciiOptimization: true,
+        ).vTableGet(buffer, rootOffset, 6, '');
+        final balanceParam = const fb.Float64Reader().vTableGet(
+          buffer,
+          rootOffset,
+          8,
+          0,
+        );
+        final updatedAtParam = DateTime.fromMillisecondsSinceEpoch(
+          const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0),
+        );
+        final createdAtParam = DateTime.fromMillisecondsSinceEpoch(
+          const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0),
+        );
+        final object = TabEntry(
+          id: idParam,
+          friendName: friendNameParam,
+          balance: balanceParam,
+          updatedAt: updatedAtParam,
+          createdAt: createdAtParam,
+        );
+
+        return object;
+      },
+    ),
   };
 
   return obx_int.ModelDefinition(model, bindings);
@@ -4848,6 +5170,16 @@ class Workout_ {
     _entities[17].properties[5],
   );
 
+  /// See [Workout.muscleGroupsRaw].
+  static final muscleGroupsRaw = obx.QueryStringProperty<Workout>(
+    _entities[17].properties[6],
+  );
+
+  /// See [Workout.muscleGroups].
+  static final muscleGroups = obx.QueryStringVectorProperty<Workout>(
+    _entities[17].properties[7],
+  );
+
   /// see [Workout.sets]
   static final sets = obx.QueryRelationToMany<Workout, ExerciseSet>(
     _entities[17].relations[0],
@@ -5410,5 +5742,92 @@ class SpendingProfileEntry_ {
   /// See [SpendingProfileEntry.updatedAt].
   static final updatedAt = obx.QueryDateProperty<SpendingProfileEntry>(
     _entities[30].properties[3],
+  );
+}
+
+/// [Note] entity fields to define ObjectBox queries.
+class Note_ {
+  /// See [Note.id].
+  static final id = obx.QueryIntegerProperty<Note>(_entities[31].properties[0]);
+
+  /// See [Note.title].
+  static final title = obx.QueryStringProperty<Note>(
+    _entities[31].properties[1],
+  );
+
+  /// See [Note.body].
+  static final body = obx.QueryStringProperty<Note>(
+    _entities[31].properties[2],
+  );
+
+  /// See [Note.category].
+  static final category = obx.QueryStringProperty<Note>(
+    _entities[31].properties[3],
+  );
+
+  /// See [Note.pinned].
+  static final pinned = obx.QueryBooleanProperty<Note>(
+    _entities[31].properties[4],
+  );
+
+  /// See [Note.updatedAt].
+  static final updatedAt = obx.QueryDateProperty<Note>(
+    _entities[31].properties[5],
+  );
+
+  /// See [Note.createdAt].
+  static final createdAt = obx.QueryDateProperty<Note>(
+    _entities[31].properties[6],
+  );
+}
+
+/// [FeaturedPhoto] entity fields to define ObjectBox queries.
+class FeaturedPhoto_ {
+  /// See [FeaturedPhoto.id].
+  static final id = obx.QueryIntegerProperty<FeaturedPhoto>(
+    _entities[32].properties[0],
+  );
+
+  /// See [FeaturedPhoto.path].
+  static final path = obx.QueryStringProperty<FeaturedPhoto>(
+    _entities[32].properties[1],
+  );
+
+  /// See [FeaturedPhoto.addedAt].
+  static final addedAt = obx.QueryDateProperty<FeaturedPhoto>(
+    _entities[32].properties[2],
+  );
+
+  /// See [FeaturedPhoto.cropAlignment].
+  static final cropAlignment = obx.QueryStringProperty<FeaturedPhoto>(
+    _entities[32].properties[3],
+  );
+}
+
+/// [TabEntry] entity fields to define ObjectBox queries.
+class TabEntry_ {
+  /// See [TabEntry.id].
+  static final id = obx.QueryIntegerProperty<TabEntry>(
+    _entities[33].properties[0],
+  );
+
+  /// See [TabEntry.friendName].
+  static final friendName = obx.QueryStringProperty<TabEntry>(
+    _entities[33].properties[1],
+  );
+
+  /// See [TabEntry.balance].
+  static final balance = obx.QueryDoubleProperty<TabEntry>(
+    _entities[33].properties[2],
+  );
+
+  /// See [TabEntry.updatedAt].
+  static final updatedAt = obx.QueryDateProperty<TabEntry>(
+    _entities[33].properties[3],
+  );
+
+  /// See [TabEntry.createdAt].
+  static final createdAt = obx.QueryDateProperty<TabEntry>(
+    _entities[33].properties[4],
   );
 }

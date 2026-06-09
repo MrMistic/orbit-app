@@ -7,4 +7,5 @@
     <string name="widget_bankroll_desc">Net profit and ROI from your bets</string>
     <string name="widget_subscriptions_desc">Total monthly subscription burn</string>
     <string name="widget_cycle_desc">Days until your next predicted period</string>
+    <string name="widget_photo_desc">Display your featured photos</string>
 </resources>

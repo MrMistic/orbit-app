@@ -5,6 +5,8 @@ import 'package:intl/intl.dart';
 
 import '../../../../database/models.dart';
 import '../../../../database/object_box.dart';
+import '../../../../services/widget_refresh.dart';
+import 'bankroll_chart.dart';
 
 // ---------------------------------------------------------------------------
 // Controller
@@ -104,12 +106,14 @@ class BankrollController extends GetxController {
       notes: notes?.trim().isEmpty ?? true ? null : notes!.trim(),
     ));
     _load();
+    WidgetRefresh.refresh();
   }
 
   void updateBet(BetRecord bet) {
     _box.put(bet);
     _load();
     bets.refresh();
+    WidgetRefresh.refresh();
   }
 
   void settle(BetRecord bet, String status) {
@@ -118,11 +122,13 @@ class BankrollController extends GetxController {
     _box.put(bet);
     _load();
     bets.refresh();
+    WidgetRefresh.refresh();
   }
 
   void remove(BetRecord bet) {
     _box.remove(bet.id);
     _load();
+    WidgetRefresh.refresh();
   }
 }
 
@@ -166,6 +172,7 @@ class BankrollTrackerPage extends StatelessWidget {
         return Column(
           children: [
             _StatsCard(controller: c),
+            BankrollChart(bets: c.bets),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
               child: Row(

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import '../database/models.dart';
 import '../database/object_box.dart';
 import '../services/cycle_predictor.dart';
+import '../services/widget_refresh.dart';
 
 class CycleController extends GetxController {
   final RxList<CycleEntry> entries = <CycleEntry>[].obs;
@@ -58,6 +59,7 @@ class CycleController extends GetxController {
       box.put(entry);
     }
     _reload();
+    WidgetRefresh.refresh();
   }
 
   Future<void> clearDate(DateTime date) async {
@@ -65,5 +67,6 @@ class CycleController extends GetxController {
     if (existing == null) return;
     ObjectBox.instance.cycleBox.remove(existing.id);
     _reload();
+    WidgetRefresh.refresh();
   }
 }

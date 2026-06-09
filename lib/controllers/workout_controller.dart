@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import '../database/models.dart';
 import '../database/object_box.dart';
 import '../services/fitness_algorithms.dart';
+import '../services/widget_refresh.dart';
 
 class WorkoutController extends GetxController {
   final RxList<Workout> _items = <Workout>[].obs;
@@ -34,12 +35,14 @@ class WorkoutController extends GetxController {
     String? notes,
     String type = 'strength',
     List<ExerciseSet> sets = const [],
+    String muscleGroupsRaw = '',
   }) async {
     final workout = Workout(
       date: date,
       durationMinutes: durationMinutes,
       notes: (notes?.trim().isEmpty ?? true) ? null : notes!.trim(),
       type: type,
+      muscleGroupsRaw: muscleGroupsRaw,
     );
     for (var i = 0; i < sets.length; i++) {
       sets[i].order = i;
@@ -47,6 +50,7 @@ class WorkoutController extends GetxController {
     workout.sets.addAll(sets);
     ObjectBox.instance.workoutBox.put(workout);
     _reload();
+    WidgetRefresh.refresh();
     return workout;
   }
 
@@ -63,17 +67,30 @@ class WorkoutController extends GetxController {
     workout.notes = (notes?.trim().isEmpty ?? true) ? null : notes!.trim();
     workout.type = type;
 
-    // Replace sets.
+    // Replace sets: use a transaction-safe approach.
+    // 1. Collect old set IDs before modifying anything.
     final setBox = ObjectBox.instance.exerciseSetBox;
-    final oldIds = workout.sets.map((s) => s.id).toList();
-    workout.sets.clear();
-    if (oldIds.isNotEmpty) setBox.removeMany(oldIds);
+    final oldIds = workout.sets.map((s) => s.id).where((id) => id > 0).toList();
+
+    // 2. First, put the new sets into the DB so they get IDs assigned.
     for (var i = 0; i < sets.length; i++) {
       sets[i].order = i;
+      sets[i].id = 0; // ensure they're treated as new
     }
+    setBox.putMany(sets);
+
+    // 3. Now replace the relation and save the workout.
+    workout.sets.clear();
     workout.sets.addAll(sets);
     ObjectBox.instance.workoutBox.put(workout);
+
+    // 4. Finally, delete the old orphaned sets.
+    if (oldIds.isNotEmpty) {
+      setBox.removeMany(oldIds);
+    }
+
     _reload();
+    WidgetRefresh.refresh();
   }
 
   Future<void> remove(Workout workout) async {
@@ -82,6 +99,7 @@ class WorkoutController extends GetxController {
     if (ids.isNotEmpty) setBox.removeMany(ids);
     ObjectBox.instance.workoutBox.remove(workout.id);
     _reload();
+    WidgetRefresh.refresh();
   }
 
   Workout? findById(int id) => ObjectBox.instance.workoutBox.get(id);
@@ -104,11 +122,16 @@ class WorkoutController extends GetxController {
   double? current1RM(String exerciseName) {
     final history = historyForExercise(exerciseName);
     if (history.isEmpty) return null;
-    // Use last 4 weeks of data.
+    // Use last 28 days of data.
     final cutoff = DateTime.now().subtract(const Duration(days: 28));
     final recent = history.where((h) => h.$1.isAfter(cutoff)).map((h) => h.$2).toList();
-    if (recent.isEmpty) return FitnessAlgorithms.best1RM(history.map((h) => h.$2).toList());
-    return FitnessAlgorithms.best1RM(recent);
+    if (recent.isNotEmpty) return FitnessAlgorithms.best1RM(recent);
+    // Fall back to last 90 days if nothing in 28.
+    final extendedCutoff = DateTime.now().subtract(const Duration(days: 90));
+    final extended = history.where((h) => h.$1.isAfter(extendedCutoff)).map((h) => h.$2).toList();
+    if (extended.isNotEmpty) return FitnessAlgorithms.best1RM(extended);
+    // Nothing recent — return null so the UI prompts a fresh test.
+    return null;
   }
 
   /// All distinct exercise names the user has logged.

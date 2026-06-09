@@ -1,24 +1,23 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:timezone/timezone.dart' as tz;
-import 'package:timezone/data/latest.dart' as tz_data;
 
 import '../database/models.dart';
 import '../database/object_box.dart';
 import '../services/cycle_predictor.dart';
+import '../services/notification_service.dart';
 
 class CycleRemindersController extends GetxController {
   final RxList<CycleReminder> reminders = <CycleReminder>[].obs;
 
-  static final _plugin = FlutterLocalNotificationsPlugin();
+  static FlutterLocalNotificationsPlugin get _plugin =>
+      NotificationService.plugin;
   static const _channelId = 'cycle_reminders';
   static const _channelName = 'Cycle reminders';
-  static bool _tzInitialized = false;
 
   @override
   void onInit() {
     super.onInit();
-    _initTz();
     _reload();
     ObjectBox.instance.cycleReminderBox
         .query()
@@ -27,13 +26,6 @@ class CycleRemindersController extends GetxController {
       _reload();
       rescheduleAll();
     });
-  }
-
-  void _initTz() {
-    if (!_tzInitialized) {
-      tz_data.initializeTimeZones();
-      _tzInitialized = true;
-    }
   }
 
   void _reload() {

@@ -21,6 +21,12 @@ class _WorkoutEditorPageState extends State<WorkoutEditorPage> {
   late TextEditingController _durationCtrl;
   late TextEditingController _notesCtrl;
   final List<_ExerciseGroup> _groups = [];
+  final Set<String> _selectedMuscles = {};
+
+  static const _muscleOptions = [
+    'Chest', 'Back', 'Shoulders', 'Biceps', 'Triceps',
+    'Quads', 'Hamstrings', 'Glutes', 'Calves', 'Core', 'Forearms',
+  ];
 
   bool get _isEdit => widget.existing != null;
 
@@ -35,6 +41,7 @@ class _WorkoutEditorPageState extends State<WorkoutEditorPage> {
     _notesCtrl = TextEditingController(text: e?.notes ?? '');
 
     if (e != null) {
+      _selectedMuscles.addAll(e.muscleGroups);
       // Group existing sets by exercise name.
       final sorted = e.sets.toList()
         ..sort((a, b) => a.order.compareTo(b.order));
@@ -71,29 +78,48 @@ class _WorkoutEditorPageState extends State<WorkoutEditorPage> {
     final duration = int.tryParse(_durationCtrl.text.trim());
     final sets = <ExerciseSet>[];
     for (final g in _groups) {
-      if (g.exerciseName.trim().isEmpty) continue;
+      if (g.exerciseName.isEmpty) continue;
       sets.addAll(g.toSets());
     }
 
-    if (_isEdit) {
-      await c.updateWorkout(
-        widget.existing!,
-        date: _date,
-        durationMinutes: duration,
-        notes: _notesCtrl.text,
-        type: _type,
-        sets: sets,
-      );
-    } else {
-      await c.create(
-        date: _date,
-        durationMinutes: duration,
-        notes: _notesCtrl.text,
-        type: _type,
-        sets: sets,
-      );
+    if (sets.isEmpty) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Add at least one exercise with a name.')),
+        );
+      }
+      return;
     }
-    Get.back();
+
+    try {
+      if (_isEdit) {
+        widget.existing!.muscleGroups = _selectedMuscles.toList();
+        await c.updateWorkout(
+          widget.existing!,
+          date: _date,
+          durationMinutes: duration,
+          notes: _type == 'strength' ? null : _notesCtrl.text,
+          type: _type,
+          sets: sets,
+        );
+      } else {
+        await c.create(
+          date: _date,
+          durationMinutes: duration,
+          notes: _type == 'strength' ? null : _notesCtrl.text,
+          type: _type,
+          sets: sets,
+          muscleGroupsRaw: _selectedMuscles.join(','),
+        );
+      }
+      if (mounted) Get.back();
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to save: $e')),
+        );
+      }
+    }
   }
 
   @override
@@ -173,13 +199,19 @@ class _WorkoutEditorPageState extends State<WorkoutEditorPage> {
               ),
               const SizedBox(width: 8),
               Expanded(
-                child: TextField(
-                  controller: _notesCtrl,
-                  decoration: const InputDecoration(
-                    labelText: 'Notes',
-                    border: OutlineInputBorder(),
-                  ),
-                ),
+                child: _type == 'strength'
+                    ? _MuscleGroupSelector(
+                        selected: _selectedMuscles,
+                        options: _muscleOptions,
+                        onChanged: () => setState(() {}),
+                      )
+                    : TextField(
+                        controller: _notesCtrl,
+                        decoration: const InputDecoration(
+                          labelText: 'Notes',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
               ),
             ],
           ),
@@ -244,7 +276,7 @@ class _ExerciseGroupCard extends StatelessWidget {
                 Expanded(
                   child: Autocomplete<String>(
                     initialValue:
-                        TextEditingValue(text: group.nameCtrl.text),
+                        TextEditingValue(text: group.exerciseName),
                     optionsBuilder: (v) {
                       final q = v.text.toLowerCase();
                       if (q.isEmpty) return const Iterable.empty();
@@ -256,12 +288,11 @@ class _ExerciseGroupCard extends StatelessWidget {
                       onChanged();
                     },
                     fieldViewBuilder: (ctx, ctrl, focus, onSubmit) {
-                      ctrl.text = group.nameCtrl.text;
-                      ctrl.addListener(() {
-                        if (group.nameCtrl.text != ctrl.text) {
-                          group.nameCtrl.text = ctrl.text;
-                        }
-                      });
+                      // Sync from our model to the Autocomplete's controller
+                      // only on first build, not on every rebuild.
+                      if (ctrl.text != group.nameCtrl.text && !focus.hasFocus) {
+                        ctrl.text = group.nameCtrl.text;
+                      }
                       return TextField(
                         controller: ctrl,
                         focusNode: focus,
@@ -274,7 +305,10 @@ class _ExerciseGroupCard extends StatelessWidget {
                                 _showPicker(context, group, onChanged),
                           ),
                         ),
-                        onChanged: (_) => onChanged(),
+                        onChanged: (text) {
+                          group.nameCtrl.text = text;
+                          onChanged();
+                        },
                       );
                     },
                   ),
@@ -503,6 +537,105 @@ class _ExerciseGroup {
         category: category,
         weight: weight,
         reps: reps,
+      ),
+    );
+  }
+}
+
+
+// ---------------------------------------------------------------------------
+// Muscle group multi-select
+// ---------------------------------------------------------------------------
+
+class _MuscleGroupSelector extends StatelessWidget {
+  const _MuscleGroupSelector({
+    required this.selected,
+    required this.options,
+    required this.onChanged,
+  });
+
+  final Set<String> selected;
+  final List<String> options;
+  final VoidCallback onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final label = selected.isEmpty
+        ? 'Muscle groups'
+        : selected.join(', ');
+
+    return InkWell(
+      onTap: () => _showPicker(context),
+      borderRadius: BorderRadius.circular(4),
+      child: InputDecorator(
+        decoration: const InputDecoration(
+          labelText: 'Muscles',
+          border: OutlineInputBorder(),
+          suffixIcon: Icon(Icons.arrow_drop_down),
+        ),
+        child: Text(
+          label,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: selected.isEmpty
+              ? TextStyle(color: Theme.of(context).hintColor)
+              : null,
+        ),
+      ),
+    );
+  }
+
+  void _showPicker(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      builder: (ctx) => StatefulBuilder(
+        builder: (ctx, setSheetState) => SafeArea(
+          child: DraggableScrollableSheet(
+            initialChildSize: 0.6,
+            minChildSize: 0.4,
+            maxChildSize: 0.85,
+            expand: false,
+            builder: (ctx, scrollCtrl) => Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Text('Select muscle groups',
+                      style: Theme.of(ctx).textTheme.titleMedium),
+                ),
+                Expanded(
+                  child: ListView(
+                    controller: scrollCtrl,
+                    children: options.map((muscle) => CheckboxListTile(
+                          title: Text(muscle),
+                          value: selected.contains(muscle),
+                          onChanged: (checked) {
+                            setSheetState(() {
+                              if (checked == true) {
+                                selected.add(muscle);
+                              } else {
+                                selected.remove(muscle);
+                              }
+                            });
+                          },
+                        )).toList(),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: FilledButton(
+                    onPressed: () {
+                      Navigator.pop(ctx);
+                      onChanged();
+                    },
+                    child: const Text('Done'),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

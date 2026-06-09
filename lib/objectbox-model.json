@@ -769,7 +769,7 @@
     },
     {
       "id": "18:6947217371485327965",
-      "lastPropertyId": "6:1666860323368389741",
+      "lastPropertyId": "8:9104449626933891847",
       "name": "Workout",
       "properties": [
         {
@@ -802,6 +802,16 @@
           "id": "6:1666860323368389741",
           "name": "createdAt",
           "type": 10
+        },
+        {
+          "id": "7:6823125488034094470",
+          "name": "muscleGroupsRaw",
+          "type": 9
+        },
+        {
+          "id": "8:9104449626933891847",
+          "name": "muscleGroups",
+          "type": 30
         }
       ],
       "relations": [
@@ -1448,9 +1458,116 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "32:6045628876849928669",
+      "lastPropertyId": "7:4830977142769960334",
+      "name": "Note",
+      "properties": [
+        {
+          "id": "1:2381967082119244074",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:183148023940039896",
+          "name": "title",
+          "type": 9
+        },
+        {
+          "id": "3:8909583586917808389",
+          "name": "body",
+          "type": 9
+        },
+        {
+          "id": "4:1623170969854007852",
+          "name": "category",
+          "type": 9
+        },
+        {
+          "id": "5:2169070046490232946",
+          "name": "pinned",
+          "type": 1
+        },
+        {
+          "id": "6:6369744167770827639",
+          "name": "updatedAt",
+          "type": 10
+        },
+        {
+          "id": "7:4830977142769960334",
+          "name": "createdAt",
+          "type": 10
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "33:6796630934546377304",
+      "lastPropertyId": "4:1456034644877738494",
+      "name": "FeaturedPhoto",
+      "properties": [
+        {
+          "id": "1:5456461312407278152",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:3278846946935811155",
+          "name": "path",
+          "type": 9
+        },
+        {
+          "id": "3:2292977901923708528",
+          "name": "addedAt",
+          "type": 10
+        },
+        {
+          "id": "4:1456034644877738494",
+          "name": "cropAlignment",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "34:8885558505789648395",
+      "lastPropertyId": "5:133106438888902989",
+      "name": "TabEntry",
+      "properties": [
+        {
+          "id": "1:1279012796830281420",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:1491730261664999733",
+          "name": "friendName",
+          "type": 9
+        },
+        {
+          "id": "3:597704408533816735",
+          "name": "balance",
+          "type": 8
+        },
+        {
+          "id": "4:5584637804315449835",
+          "name": "updatedAt",
+          "type": 10
+        },
+        {
+          "id": "5:133106438888902989",
+          "name": "createdAt",
+          "type": 10
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "31:5650439602014110399",
+  "lastEntityId": "34:8885558505789648395",
   "lastIndexId": "0:0",
   "lastRelationId": "2:7073992512124200738",
   "lastSequenceId": "0:0",

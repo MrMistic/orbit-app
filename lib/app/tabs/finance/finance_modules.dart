@@ -6,8 +6,10 @@ import 'cashback/cashback_cards_page.dart';
 import 'credit_card/credit_card_payoff_page.dart';
 import 'loan/loan_calculator_page.dart';
 import 'parlay/parlay_calculator_page.dart';
+import 'poker/poker_settlement_page.dart';
 import 'savings/savings_goals_page.dart';
 import 'subscriptions/subscriptions_page.dart';
+import 'tab/tab_tracker_page.dart';
 import 'tax/tax_bracket_reference_page.dart';
 import 'tip/tip_split_calculator_page.dart';
 import 'vig/vig_calculator_page.dart';
@@ -117,6 +119,20 @@ class FinanceRegistry {
       subtitle: 'Multi-leg payout calculator',
       icon: Icons.layers_outlined,
       pageBuilder: (_) => const ParlayCalculatorPage(),
+    ),
+    FinanceSubmodule(
+      id: 'tab',
+      label: 'Tab tracker',
+      subtitle: 'Running tabs with friends',
+      icon: Icons.people_outline,
+      pageBuilder: (_) => const TabTrackerPage(),
+    ),
+    FinanceSubmodule(
+      id: 'poker',
+      label: 'Poker settlement',
+      subtitle: 'Minimize transfers after a game',
+      icon: Icons.casino_outlined,
+      pageBuilder: (_) => const PokerSettlementPage(),
     ),
   ];
 }

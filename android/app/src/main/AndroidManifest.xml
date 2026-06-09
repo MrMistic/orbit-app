@@ -5,6 +5,10 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <!-- Notifications for cook timer (Android 13+) -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <!-- Sleep API (Activity Recognition) -->
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION"/>
+    <!-- Re-register sleep detection after reboot -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:label="Orbit"
@@ -30,6 +34,11 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="text/plain"/>
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.
@@ -107,6 +116,36 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_cycle_info"/>
+        </receiver>
+
+        <receiver android:name=".PhotoWidget"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_photo_info"/>
+        </receiver>
+
+        <receiver android:name=".PhotoWidgetAlarm"
+            android:exported="false"/>
+
+        <!-- Sleep API receiver -->
+        <receiver android:name=".SleepReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.ACTIVITY_RECOGNITION"/>
+
+        <!-- Boot receiver to re-register sleep detection -->
+        <receiver android:name=".BootReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.QUICKBOOT_POWERON"/>
+            </intent-filter>
         </receiver>
     </application>
     <!-- Required to query activities that can process text, see:

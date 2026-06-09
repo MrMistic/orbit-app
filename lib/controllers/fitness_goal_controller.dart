@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import '../database/models.dart';
 import '../database/object_box.dart';
 import '../services/fitness_algorithms.dart';
+import '../services/widget_refresh.dart';
 
 class FitnessGoalController extends GetxController {
   final RxList<FitnessGoal> _items = <FitnessGoal>[].obs;
@@ -46,17 +47,20 @@ class FitnessGoalController extends GetxController {
       deadline: deadline,
     ));
     _reload();
+    WidgetRefresh.refresh();
   }
 
   Future<void> markCompleted(FitnessGoal goal) async {
     goal.completed = true;
     ObjectBox.instance.fitnessGoalBox.put(goal);
     _reload();
+    WidgetRefresh.refresh();
   }
 
   Future<void> remove(FitnessGoal goal) async {
     ObjectBox.instance.fitnessGoalBox.remove(goal.id);
     _reload();
+    WidgetRefresh.refresh();
   }
 
   /// Progress percentage for a strength goal (based on current 1RM vs target).
