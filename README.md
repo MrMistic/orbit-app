@@ -1,6 +1,6 @@
 # Orbit
 
-A local-first personal life-management Android app. Everything you need to consult for your life — todos, recipes, fitness, finance, relationship tracking, and more — in one place. All data lives on your device.
+A local-first personal life-management Android app. Everything you need to consult for your life (todos, recipes, fitness, finance, relationship tracking, etc) in one place. All data lives on your device.
 
 ## Features
 
@@ -9,10 +9,10 @@ Orbit is organized into modules. The first three are surfaced as bottom-nav home
 | Module | Highlights |
 |---|---|
 | **Todos** | CRUD, due dates, sort by earliest/latest, edit in place |
-| **Recipes** | Tags, photos, favorites, search, URL import (JSON-LD), share as text, cook timer, step-by-step mode, integrated shopping list |
+| **Recipes** | Tags, photos, favorites, search, URL import, share as text, cook timer, step-by-step mode, integrated shopping list |
 | **Relationship** | Cycle tracker with prediction algorithm, date ideas, gifts, important dates, trip planner with packing lists, conversation prompts, preferences journal, cycle-aware reminders, love-language reminders |
-| **Fitness** | Exercise tracker (groups + sets), personal records with Epley/Brzycki 1RM, body metrics with TDEE (Mifflin-St Jeor), goals & programming with progressive overload + Prilepin's chart |
-| **Finance** | Bills & subscriptions, savings goals & wishlist, cashback card picker, card "worth-it" analyzer, bankroll tracker; calculators for tip/split, loans, credit-card payoff, taxes, arbitrage, vig, parlay |
+| **Fitness** | Exercise tracker, PRs, body metrics, goals & programming with progressive overload |
+| **Finance** | Bills & subscriptions, savings goals & wishlist, credit cards, and calculators for tip/split, loans, credit-card payoff, taxes, arbitrage, poker, parlay |
 | **Shopping** | Manual list + recipe-driven groceries |
 | **Media** | Books, movies, shows, podcasts, games, articles |
 | **Contacts** | Personal CRM with reach-out cadence and overdue badges |
