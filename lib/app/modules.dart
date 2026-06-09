@@ -6,6 +6,7 @@ import 'tabs/finance/finance_tab.dart';
 import 'tabs/fitness/fitness_tab.dart';
 import 'tabs/maintenance/maintenance_page.dart';
 import 'tabs/media/media_list_page.dart';
+import 'tabs/notes/notes_page.dart';
 import 'tabs/projects/projects_page.dart';
 import 'tabs/recipes/recipe_list_page.dart';
 import 'tabs/relationship_tab.dart';
@@ -147,6 +148,14 @@ class ModuleRegistry {
       selectedIcon: Icons.explore,
       subtitle: 'Life goals big and small',
       pageBuilder: (_) => const BucketListPage(),
+    ),
+    AppModule(
+      id: 'notes',
+      label: 'Notes',
+      icon: Icons.note_outlined,
+      selectedIcon: Icons.note,
+      subtitle: 'Quick notes and thoughts',
+      pageBuilder: (_) => const NotesPage(),
     ),
   ];
 

@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import '../../../../controllers/workout_controller.dart';
 import '../../../../database/models.dart';
 import 'workout_editor_page.dart';
+import 'workout_volume_chart.dart';
 
 class WorkoutListPage extends StatelessWidget {
   const WorkoutListPage({super.key});
@@ -27,10 +28,17 @@ class WorkoutListPage extends StatelessWidget {
             child: Text('No workouts logged yet. Tap + to start.'),
           );
         }
-        return ListView.builder(
-          padding: const EdgeInsets.only(bottom: 96),
-          itemCount: list.length,
-          itemBuilder: (_, i) => _WorkoutTile(workout: list[i]),
+        return Column(
+          children: [
+            WorkoutVolumeChart(workouts: list),
+            Expanded(
+              child: ListView.builder(
+                padding: const EdgeInsets.only(bottom: 96),
+                itemCount: list.length,
+                itemBuilder: (_, i) => _WorkoutTile(workout: list[i]),
+              ),
+            ),
+          ],
         );
       }),
     );
@@ -47,7 +55,6 @@ class _WorkoutTile extends StatelessWidget {
     final theme = Theme.of(context);
     final fmt = DateFormat.yMMMd();
     final setCount = workout.sets.length;
-    final exercises = workout.sets.map((s) => s.exerciseName).toSet();
 
     return Dismissible(
       key: ValueKey(workout.id),
@@ -63,7 +70,7 @@ class _WorkoutTile extends StatelessWidget {
         onTap: () => Get.to(() => WorkoutEditorPage(existing: workout)),
         leading: _TypeIcon(type: workout.type),
         title: Text(
-          exercises.take(3).join(', '),
+          workout.displayName,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),

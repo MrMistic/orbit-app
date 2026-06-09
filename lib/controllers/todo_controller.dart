@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 
 import '../database/models.dart';
 import '../database/object_box.dart';
+import '../services/widget_refresh.dart';
 
 /// Sort direction for incomplete todos. Completed todos always sink to the
 /// bottom, ordered by completion time (most recent first).
@@ -75,6 +76,7 @@ class TodoController extends GetxController {
       Todo(title: trimmed, notes: notes, dueDate: dueDate),
     );
     _reload();
+    WidgetRefresh.refresh();
   }
 
   Future<void> updateTodo(
@@ -90,6 +92,7 @@ class TodoController extends GetxController {
     todo.dueDate = dueDate;
     ObjectBox.instance.todoBox.put(todo);
     _reload();
+    WidgetRefresh.refresh();
   }
 
   Future<void> toggle(Todo todo) async {
@@ -97,10 +100,12 @@ class TodoController extends GetxController {
     todo.completedAt = todo.done ? DateTime.now() : null;
     ObjectBox.instance.todoBox.put(todo);
     _reload();
+    WidgetRefresh.refresh();
   }
 
   Future<void> remove(Todo todo) async {
     ObjectBox.instance.todoBox.remove(todo.id);
     _reload();
+    WidgetRefresh.refresh();
   }
 }

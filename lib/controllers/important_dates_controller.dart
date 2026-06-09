@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 
 import '../database/models.dart';
 import '../database/object_box.dart';
+import '../services/widget_refresh.dart';
 
 class ImportantDatesController extends GetxController {
   final RxList<ImportantDate> _items = <ImportantDate>[].obs;
@@ -42,6 +43,7 @@ class ImportantDatesController extends GetxController {
       recurring: recurring,
     ));
     _reload();
+    WidgetRefresh.refresh();
   }
 
   Future<void> updateDate(
@@ -59,10 +61,12 @@ class ImportantDatesController extends GetxController {
     entry.recurring = recurring;
     ObjectBox.instance.importantDateBox.put(entry);
     _reload();
+    WidgetRefresh.refresh();
   }
 
   Future<void> remove(ImportantDate entry) async {
     ObjectBox.instance.importantDateBox.remove(entry.id);
     _reload();
+    WidgetRefresh.refresh();
   }
 }

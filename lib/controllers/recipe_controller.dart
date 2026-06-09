@@ -151,15 +151,25 @@ class RecipeController extends GetxController {
     recipe.photoPath = photoPath;
     if (tags != null) recipe.tagList = tags;
 
-    // Replace ingredients: remove old, add new.
+    // Replace ingredients: transaction-safe approach (same as workout sets).
     final ingBox = ObjectBox.instance.ingredientBox;
-    final oldIds = recipe.ingredientList.map((i) => i.id).toList();
-    recipe.ingredientList.clear();
-    if (oldIds.isNotEmpty) ingBox.removeMany(oldIds);
-    _assignOrder(ingredients);
-    recipe.ingredientList.addAll(ingredients);
+    final oldIds = recipe.ingredientList.map((i) => i.id).where((id) => id > 0).toList();
 
+    // 1. Assign order and put new ingredients so they get IDs.
+    _assignOrder(ingredients);
+    for (final ing in ingredients) {
+      ing.id = 0; // ensure treated as new
+    }
+    ingBox.putMany(ingredients);
+
+    // 2. Replace the relation and save the recipe.
+    recipe.ingredientList.clear();
+    recipe.ingredientList.addAll(ingredients);
     ObjectBox.instance.recipeBox.put(recipe);
+
+    // 3. Delete orphaned old ingredients.
+    if (oldIds.isNotEmpty) ingBox.removeMany(oldIds);
+
     _reload();
   }
 

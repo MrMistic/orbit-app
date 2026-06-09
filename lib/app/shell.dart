@@ -3,9 +3,15 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '../controllers/module_order_controller.dart';
+import '../controllers/recipe_controller.dart';
+import '../database/models.dart';
+import '../database/object_box.dart';
+import '../services/share_handler.dart';
+import '../services/recipe_importer.dart';
 import 'modules.dart';
 import 'tabs/finance/bankroll/bankroll_tracker_page.dart';
 import 'tabs/finance/subscriptions/subscriptions_page.dart';
+import 'tabs/featured_photos/featured_photos_page.dart';
 import 'tabs/more_tab.dart';
 import 'tabs/relationship/cycle/cycle_tracker_page.dart';
 import 'tabs/relationship/important_dates/important_dates_page.dart';
@@ -33,6 +39,8 @@ class _AppShellState extends State<AppShell> {
     _channel.setMethodCallHandler((call) async {
       if (call.method == 'onRoute' && call.arguments is String) {
         _navigateToModule(call.arguments as String);
+      } else if (call.method == 'onShareText' && call.arguments is String) {
+        _handleShareText(call.arguments as String);
       }
     });
   }
@@ -47,6 +55,11 @@ class _AppShellState extends State<AppShell> {
       final route = await _channel.invokeMethod<String>('getRoute');
       if (route != null && route.isNotEmpty && mounted) {
         _navigateToModule(route);
+      }
+      // Check for shared URL on cold start.
+      final shareText = await _channel.invokeMethod<String>('getShareText');
+      if (shareText != null && shareText.isNotEmpty && mounted) {
+        _handleShareText(shareText);
       }
     } catch (_) {
       // Channel not set up or no intent — ignore.
@@ -98,6 +111,137 @@ class _AppShellState extends State<AppShell> {
         MaterialPageRoute(builder: (_) => const SubscriptionsPage()),
       );
       return;
+    }
+    if (moduleId == 'featured_photos') {
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => const FeaturedPhotosPage()),
+      );
+      return;
+    }
+  }
+
+  Future<void> _handleShareText(String text) async {
+    // Show loading snackbar.
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Importing...'), duration: Duration(seconds: 15)),
+    );
+
+    final result = await ShareHandler.process(text);
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
+    switch (result.type) {
+      case ShareResultType.recipe:
+        if (result.importedRecipe != null) {
+          final c = Get.find<RecipeController>();
+          await c.create(
+            name: result.importedRecipe!.name,
+            description: result.importedRecipe!.description,
+            ingredients: const [],
+            steps: result.importedRecipe!.steps,
+            servings: result.importedRecipe!.servings,
+            prepTimeMinutes: result.importedRecipe!.prepTimeMinutes,
+            cookTimeMinutes: result.importedRecipe!.cookTimeMinutes,
+            tags: result.importedRecipe!.tags,
+          );
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Recipe imported: ${result.importedRecipe!.name}')),
+          );
+        }
+        break;
+
+      case ShareResultType.wishlist:
+        if (result.productInfo != null) {
+          ObjectBox.instance.savingsGoalBox.put(SavingsGoal(
+            name: result.productInfo!.name,
+            targetAmount: result.productInfo!.price ?? 0,
+            linkUrl: result.productInfo!.url,
+            type: 'wishlist',
+          ));
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Added to wishlist: ${result.productInfo!.name}')),
+          );
+        }
+        break;
+
+      case ShareResultType.disambiguation:
+        final choice = await showDialog<String>(
+          context: context,
+          builder: (ctx) => SimpleDialog(
+            title: const Text('Import as:'),
+            children: [
+              SimpleDialogOption(
+                onPressed: () => Navigator.pop(ctx, 'recipe'),
+                child: const Text('🍳  Recipe'),
+              ),
+              SimpleDialogOption(
+                onPressed: () => Navigator.pop(ctx, 'wishlist'),
+                child: const Text('🛒  Wishlist item'),
+              ),
+              SimpleDialogOption(
+                onPressed: () => Navigator.pop(ctx),
+                child: const Text('Cancel'),
+              ),
+            ],
+          ),
+        );
+        if (choice == 'recipe' && result.url != null) {
+          try {
+            final imported = await RecipeImporter.fromUrl(result.url!);
+            final c = Get.find<RecipeController>();
+            await c.create(
+              name: imported.name,
+              description: imported.description,
+              ingredients: const [],
+              steps: imported.steps,
+              servings: imported.servings,
+              prepTimeMinutes: imported.prepTimeMinutes,
+              cookTimeMinutes: imported.cookTimeMinutes,
+              tags: imported.tags,
+            );
+            if (mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Recipe imported: ${imported.name}')),
+              );
+            }
+          } catch (e) {
+            if (mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Failed to import recipe: $e')),
+              );
+            }
+          }
+        } else if (choice == 'wishlist' && result.url != null) {
+          // Use page title as name fallback.
+          final titleMatch = RegExp(r'<title[^>]*>(.*?)</title>', caseSensitive: false, dotAll: true)
+              .firstMatch(result.html ?? '');
+          final name = titleMatch?.group(1)?.trim() ?? result.url!;
+          ObjectBox.instance.savingsGoalBox.put(SavingsGoal(
+            name: name.length > 100 ? name.substring(0, 100) : name,
+            targetAmount: 0,
+            linkUrl: result.url,
+            type: 'wishlist',
+          ));
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Added to wishlist: $name')),
+            );
+          }
+        }
+        break;
+
+      case ShareResultType.noUrl:
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('No URL found in shared content.')),
+        );
+        break;
+
+      case ShareResultType.error:
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(result.errorMessage ?? 'Import failed.')),
+        );
+        break;
     }
   }
 

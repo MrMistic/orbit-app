@@ -116,6 +116,7 @@ class RecipeDetailPage extends StatelessWidget {
                 height: 220,
                 width: double.infinity,
                 fit: BoxFit.cover,
+                cacheWidth: 600,
                 errorBuilder: (_, _, _) => const SizedBox.shrink(),
               ),
             Padding(

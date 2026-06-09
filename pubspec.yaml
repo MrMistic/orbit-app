@@ -40,6 +40,9 @@ dependencies:
   # Charts
   fl_chart: ^0.69.2
 
+  # Image cropping
+  crop_your_image: ^1.1.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import '../../controllers/module_order_controller.dart';
 import '../shell.dart';
 import 'rearrange_modules_page.dart';
+import 'search/global_search_page.dart';
+import 'settings/backup_page.dart';
 
 class MoreTab extends StatelessWidget {
   const MoreTab({super.key});
@@ -15,6 +17,12 @@ class MoreTab extends StatelessWidget {
 
     return TabScaffold(
       title: 'More',
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.search),
+          onPressed: () => Get.to(() => const GlobalSearchPage()),
+        ),
+      ],
       child: Obx(() {
         final more = c.moreModules;
         return ListView(
@@ -46,6 +54,15 @@ class MoreTab extends StatelessWidget {
                   'Choose which modules show up on the home screen'),
               trailing: const Icon(Icons.chevron_right),
               onTap: () => Get.to(() => const RearrangeModulesPage()),
+            ),
+
+            // Backup & Restore.
+            ListTile(
+              leading: const Icon(Icons.cloud_download_outlined),
+              title: const Text('Backup & Restore'),
+              subtitle: const Text('Export or import all your data'),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => Get.to(() => const BackupPage()),
             ),
 
             const ListTile(

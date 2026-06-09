@@ -862,6 +862,10 @@ class Workout {
   /// "strength", "cardio", "flexibility", "plyometric", "mixed".
   String type;
 
+  /// Comma-separated muscle groups worked (for strength workouts).
+  /// e.g. "Chest,Triceps" or "Back,Biceps".
+  String muscleGroupsRaw;
+
   @Property(type: PropertyType.date)
   DateTime createdAt;
 
@@ -873,8 +877,33 @@ class Workout {
     this.durationMinutes,
     this.notes,
     this.type = 'strength',
+    this.muscleGroupsRaw = '',
     DateTime? createdAt,
   }) : createdAt = createdAt ?? DateTime.now();
+
+  List<String> get muscleGroups => muscleGroupsRaw
+      .split(',')
+      .map((s) => s.trim())
+      .where((s) => s.isNotEmpty)
+      .toList();
+
+  set muscleGroups(List<String> groups) {
+    muscleGroupsRaw = groups.join(',');
+  }
+
+  /// Display name for the workout. For strength workouts with muscle groups,
+  /// returns "Chest and Triceps" style. Otherwise falls back to exercise names.
+  String get displayName {
+    if (type == 'strength' && muscleGroups.isNotEmpty) {
+      final groups = muscleGroups;
+      if (groups.length == 1) return groups.first;
+      if (groups.length == 2) return '${groups[0]} and ${groups[1]}';
+      return '${groups.sublist(0, groups.length - 1).join(', ')}, and ${groups.last}';
+    }
+    final exercises = sets.map((s) => s.exerciseName).toSet();
+    if (exercises.isNotEmpty) return exercises.take(3).join(', ');
+    return type[0].toUpperCase() + type.substring(1);
+  }
 }
 
 /// A single set within a workout.
@@ -1240,4 +1269,88 @@ class ShoppingItem {
     this.checked = false,
     DateTime? addedAt,
   }) : addedAt = addedAt ?? DateTime.now();
+}
+
+/// A general-purpose note.
+@Entity()
+class Note {
+  @Id()
+  int id;
+
+  String title;
+
+  /// The note body (plain text, can be multi-line).
+  String body;
+
+  /// Optional category/folder for organization.
+  String? category;
+
+  bool pinned;
+
+  @Property(type: PropertyType.date)
+  DateTime updatedAt;
+
+  @Property(type: PropertyType.date)
+  DateTime createdAt;
+
+  Note({
+    this.id = 0,
+    required this.title,
+    this.body = '',
+    this.category,
+    this.pinned = false,
+    DateTime? updatedAt,
+    DateTime? createdAt,
+  })  : updatedAt = updatedAt ?? DateTime.now(),
+        createdAt = createdAt ?? DateTime.now();
+}
+
+/// A photo selected for the home screen photo widget.
+@Entity()
+class FeaturedPhoto {
+  @Id()
+  int id;
+
+  /// Absolute path to the copied image in app-private storage.
+  String path;
+
+  /// Crop alignment for widget display: "top", "center", or "bottom".
+  String cropAlignment;
+
+  @Property(type: PropertyType.date)
+  DateTime addedAt;
+
+  FeaturedPhoto({
+    this.id = 0,
+    required this.path,
+    this.cropAlignment = 'center',
+    DateTime? addedAt,
+  }) : addedAt = addedAt ?? DateTime.now();
+}
+
+/// A running tab with a friend (positive = they owe you, negative = you owe them).
+@Entity()
+class TabEntry {
+  @Id()
+  int id;
+
+  String friendName;
+
+  /// Current balance. Positive = they owe you. Negative = you owe them.
+  double balance;
+
+  @Property(type: PropertyType.date)
+  DateTime updatedAt;
+
+  @Property(type: PropertyType.date)
+  DateTime createdAt;
+
+  TabEntry({
+    this.id = 0,
+    required this.friendName,
+    this.balance = 0,
+    DateTime? updatedAt,
+    DateTime? createdAt,
+  })  : updatedAt = updatedAt ?? DateTime.now(),
+        createdAt = createdAt ?? DateTime.now();
 }

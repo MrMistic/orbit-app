@@ -8,6 +8,8 @@ import 'controllers/module_order_controller.dart';
 import 'controllers/relationship_order_controller.dart';
 import 'database/object_box.dart';
 import 'services/notification_service.dart';
+import 'services/reminder_scheduler.dart';
+import 'services/sleep_detection_service.dart';
 import 'services/unit_preference.dart';
 import 'services/widget_data_service.dart';
 
@@ -25,6 +27,10 @@ Future<void> main() async {
   await units.load();
   // Populate widget data for home screen widgets.
   await WidgetDataService.updateAll();
+  // Schedule notifications for todos, maintenance, contacts, subscriptions.
+  await ReminderScheduler.rescheduleAll();
+  // Import any auto-detected sleep sessions.
+  await SleepDetectionService.importPending();
   final savedMode = await AdaptiveTheme.getThemeMode();
   runApp(LifeApp(savedMode: savedMode ?? AdaptiveThemeMode.system));
 }

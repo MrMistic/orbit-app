@@ -244,6 +244,7 @@ class _RecipeCard extends StatelessWidget {
                   ? Image.file(
                       File(recipe.photoPath!),
                       fit: BoxFit.cover,
+                      cacheWidth: 200,
                       errorBuilder: (_, _, _) => _PhotoPlaceholder(theme: theme),
                     )
                   : _PhotoPlaceholder(theme: theme),

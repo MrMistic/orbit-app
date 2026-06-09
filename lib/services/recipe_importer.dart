@@ -26,7 +26,7 @@ class RecipeImporter {
       throw ImportException('Server returned ${response.statusCode}.');
     }
 
-    final json = _findRecipeJsonLd(response.body);
+    final json = findRecipeJsonLd(response.body);
     if (json == null) {
       throw const ImportException(
           'No recipe data found on this page. The site may not embed structured recipe data.');
@@ -35,9 +35,19 @@ class RecipeImporter {
     return _toImported(json);
   }
 
+  /// Parses already-fetched HTML for recipe data. Throws ImportException if not found.
+  static ImportedRecipe fromHtml(String html, String url) {
+    final json = findRecipeJsonLd(html);
+    if (json == null) {
+      throw const ImportException(
+          'No recipe data found on this page.');
+    }
+    return _toImported(json);
+  }
+
   /// Searches the HTML for `<script type="application/ld+json">` blocks and
   /// returns the first one that describes a Recipe.
-  static Map<String, dynamic>? _findRecipeJsonLd(String html) {
+  static Map<String, dynamic>? findRecipeJsonLd(String html) {
     final pattern = RegExp(
       r'<script[^>]*type=["' "'" r']application/ld\+json["' "'" r'][^>]*>([\s\S]*?)</script>',
       caseSensitive: false,

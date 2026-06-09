@@ -5,6 +5,8 @@ import 'package:intl/intl.dart';
 
 import '../../../database/models.dart';
 import '../../../database/object_box.dart';
+import '../../../services/sleep_detection_service.dart';
+import '../../../services/widget_refresh.dart';
 
 // ---------------------------------------------------------------------------
 // Controller
@@ -40,11 +42,13 @@ class SleepController extends GetxController {
       notes: notes,
     ));
     _load();
+    WidgetRefresh.refresh();
   }
 
   void remove(SleepEntry entry) {
     _box.remove(entry.id);
     _load();
+    WidgetRefresh.refresh();
   }
 
   /// Average hours slept in the last 7 days.
@@ -81,7 +85,12 @@ class SleepPage extends StatelessWidget {
     final c = Get.put(SleepController(), permanent: true);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Sleep')),
+      appBar: AppBar(
+        title: const Text('Sleep'),
+        actions: [
+          _AutoDetectToggle(),
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _showSleepSheet(context, c),
         child: const Icon(Icons.add),
@@ -492,6 +501,84 @@ class _WeeklyChart extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+
+// ---------------------------------------------------------------------------
+// Auto-detect toggle
+// ---------------------------------------------------------------------------
+
+class _AutoDetectToggle extends StatefulWidget {
+  @override
+  State<_AutoDetectToggle> createState() => _AutoDetectToggleState();
+}
+
+class _AutoDetectToggleState extends State<_AutoDetectToggle> {
+  bool _enabled = false;
+  bool _loading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _load();
+  }
+
+  Future<void> _load() async {
+    final enabled = await SleepDetectionService.isEnabled();
+    if (mounted) setState(() { _enabled = enabled; _loading = false; });
+  }
+
+  Future<void> _toggle(bool value) async {
+    if (value) {
+      // Request ACTIVITY_RECOGNITION permission before enabling.
+      final granted = await SleepDetectionService.requestPermission();
+      if (!granted) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Activity recognition permission is required for sleep detection.'),
+            ),
+          );
+        }
+        return;
+      }
+      setState(() => _enabled = true);
+      await SleepDetectionService.enable();
+    } else {
+      setState(() => _enabled = false);
+      await SleepDetectionService.disable();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_loading) return const SizedBox.shrink();
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(
+          _enabled ? Icons.bedtime : Icons.bedtime_outlined,
+          size: 18,
+          color: _enabled
+              ? Theme.of(context).colorScheme.primary
+              : Theme.of(context).colorScheme.onSurfaceVariant,
+        ),
+        const SizedBox(width: 4),
+        Text(
+          'Auto',
+          style: Theme.of(context).textTheme.labelSmall?.copyWith(
+            color: _enabled
+                ? Theme.of(context).colorScheme.primary
+                : Theme.of(context).colorScheme.onSurfaceVariant,
+          ),
+        ),
+        Switch(
+          value: _enabled,
+          onChanged: _toggle,
+        ),
+      ],
     );
   }
 }
